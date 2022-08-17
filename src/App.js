@@ -9,7 +9,7 @@ import Dashboard from './components/Dashboard';
 
 function App() {
   return (
-  <div>
+  <div className="flex justify-center items-center">
     <Router>
       <Switch>
         <Route exact path="/">
