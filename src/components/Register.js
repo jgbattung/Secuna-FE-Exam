@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
@@ -69,7 +68,7 @@ function Register() {
             })
             console.warn("response", response)
             setRegisterUserData(response)
-    }
+        }
 
     }
 

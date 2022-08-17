@@ -1,6 +1,6 @@
 async function logIn (user) {
     const userData = {
-        username: user.username,
+        email: user.email,
         password: user.password
     }
 
@@ -20,8 +20,11 @@ async function logIn (user) {
         message: data.message,
         two_fa_qr_url: data.two_fa_qr_url,
         two_fa_enabled: data.two_fa_enabled,
-        access_token: data.access_token
+        access_token: data.access_token,
+        errors: data.errors ? data.errors : null
     }
 
-
+    return apiResponse
 }
+
+export default logIn;
