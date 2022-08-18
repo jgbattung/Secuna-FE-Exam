@@ -5,6 +5,7 @@ import DefaultPage from './components/DefaultPage';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import Verify from './components/Verify'
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
         <Route exact path="/login">
           {<Login />}
         </Route>
-        {/* <Route exact path="/verify">
+        <Route exact path="/verify">
           {<Verify />}
-        </Route> */}
+        </Route>
         <Route exact path="/dashboard">
           {<Dashboard />}
         </Route>
