@@ -17,11 +17,14 @@ function Login () {
         errors: null
     });
 
+    const [qrcode, setQrcode] = useState(false)
+
     const history = useHistory()
 
     useEffect( () => {
         if (logInUserData.two_fa_qr_url) {
-            history.push('verify')
+            window.open(logInUserData.two_fa_qr_url, '_blank')
+            setQrcode(true)
         }
     })
 
@@ -29,9 +32,9 @@ function Login () {
 
     console.warn("formData", formData)
 
-    const [ alertIncomepleteInput, setalertIncomepleteInput ] = React.useState(false);
-	const [ alertError, setAlertError ] = React.useState(false);
-	const [ alertSuccess, setAlertSuccess ] = React.useState(false);
+    const [ alertIncomepleteInput, setalertIncomepleteInput ] = useState(false);
+	const [ alertError, setAlertError ] = useState(false);
+	const [ alertSuccess, setAlertSuccess ] = useState(false);
 
     function handleChange (e) {
 		setFormData((prevFormData) => {
@@ -53,7 +56,6 @@ function Login () {
 			setalertIncomepleteInput(false);
 			setAlertError(false);
             setAlertSuccess(true)
-			console.log('logged in');
 
             const response = await logIn({
                 username: formData.username,
@@ -71,16 +73,35 @@ function Login () {
             password: formData.password
         })
         console.warn("response", response)
+        console.warn("2fa", response.two_fa_qr_url)
         setlogInUserData(response)
     }
 
     return (
-        <div className="grid h-screen place-items-center mt-10 mb-10">
+        <div className="grid h-screen place-items-center">
+            {qrcode && ( 
+                <div className="absolute inset-0 flex justify-center items-center z-10 bg-black opacity-95">
+                    <div className="grid h-screen place-items-center">
+                        <div>
+                            <div className="bg-slate-200 shadow-2xl rounded px-8 pt-6 pb-8 mb-4">
+                                <form>
+                                    <label className="block mt-3 text-gray-700 text-base font-medium mb-4" htmlFor="qrcode">Scan the QR code and enter the 6-digit code below</label>
+                                    <input className="shadow appearance-none text-base border rounded w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" id="qrcode" name="qrcode" placeholder="enter the code here" />
+                                    <button
+                                    className="bg-gray-900 w-full mt-5 transition-all hover:bg-black text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit"
+                                    >Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            )}
             <div>
                 <div className="mb-2">
-                    <h2 className="flex justify-center text-3xl font-bold pb-3">Login to your account</h2>
+                    <h2 className="flex justify-center text-3xl font-bold pb-3 mt-10">Login to your account</h2>
                 </div>
-                <div className="w-96 m-auto mt-7">
+                <div className="w-96 m-auto mt-7 mb-10">
                     <form onSubmit={handleLogin} method="POST" className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
                         <div className="mb-4">
                             <label className="block mt-3 text-gray-700 text-base font-medium mb-4" htmlFor="email">
@@ -178,7 +199,7 @@ function Login () {
 								role="alert"
 							>
 								<strong className="font-bold">Success! </strong>
-								<span className="block sm:inline"> Redirecting you to the verification page</span>
+								<span className="block sm:inline"> QR code will open in another tab</span>
 								<span className="absolute top-0 bottom-0 right-0 px-4 py-3">
 									<svg
 										className="fill-current h-6 w-6 text-green-500"
