@@ -11,7 +11,7 @@ function Login () {
         password: '',
     });
 
-    const [logInUserData, setlogInUserData] = useState({
+    const [ logInUserData, setlogInUserData ] = useState({
         message: null,
         two_fa_qr_url: null,
         two_fa_enabled: false,
@@ -25,6 +25,7 @@ function Login () {
         if (logInUserData.two_fa_qr_url) {
             window.open(logInUserData.two_fa_qr_url, '_blank')
             history.push('/verify')
+            localStorage.setItem('access_token', JSON.stringify(logInUserData.access_token))
         }
     })
 
@@ -69,15 +70,15 @@ function Login () {
             setlogInUserData(response)
         }
 
-        const response = await logIn({
-            username: formData.username,
-            email: formData.email,
-            password: formData.password
-        })
-        // window.open(logInUserData.two_fa_qr_url, '_blank')
-        console.warn("response", response)
-        console.warn("2fa", response.two_fa_qr_url)
-        setlogInUserData(response)
+        // const response = await logIn({
+        //     username: formData.username,
+        //     email: formData.email,
+        //     password: formData.password
+        // })
+        // // window.open(logInUserData.two_fa_qr_url, '_blank')
+        // console.warn("response", response)
+        // console.warn("2fa", response.two_fa_qr_url)
+        // setlogInUserData(response)
     }
 
     return (
